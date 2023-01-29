@@ -1,0 +1,22 @@
+.dice-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dice-icon {
+    font-size: 3em;
+    padding: 0.25em;
+}
+
+.dice-icon.small {
+    font-size: 2em;
+}
+
+.dice-icon.large {
+    font-size: 4em;
+}
+
+.dice-icon.locked {
+    color:slateblue;
+}

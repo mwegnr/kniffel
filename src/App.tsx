@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import './Die';
-import './Dice'
+import './Dice/Die';
+import './Dice/Dice'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {fas} from '@fortawesome/free-solid-svg-icons'
-import Dice from "./Dice";
+import Dice from "./Dice/Dice";
 
 library.add(fas)
 
