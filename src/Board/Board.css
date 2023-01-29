@@ -1,0 +1,48 @@
+.board-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.board-icon {
+    font-size: 20pt;
+    padding-left: 0.1em;
+    padding-right: 0.1em;
+}
+
+table {
+    border-spacing: 0;
+}
+
+.cell {
+    border: solid 1px white;
+    height: 1.3em;
+    font-size: 18pt;
+}
+
+.cell input {
+    width: 4em;
+    border: none;
+    font-size: 16pt;
+    text-align: center;
+    color: white;
+    background-color: #282c34;
+}
+
+.cell input:focus {
+    outline: none !important;
+
+}
+
+/* Hide arrows in number fields */
+/* Chrome, Safari, Edge, Opera */
+.cell input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.cell input[type=number] {
+    -moz-appearance: textfield;
+}

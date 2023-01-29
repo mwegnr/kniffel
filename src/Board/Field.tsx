@@ -1,6 +1,5 @@
-
-
 import React, {Component} from "react";
+import './Board.css'
 
 interface IProps {
 }
@@ -13,10 +12,11 @@ class Field extends Component<IProps, IState> {
 // Field-State/Props:
 // - filledValue
 // - numbersToCount
+// - onClick
 
     render() {
         return (
-            <div></div>
+            <tr><td className='cell'><input type='number'/></td></tr>
         )
     }
 
