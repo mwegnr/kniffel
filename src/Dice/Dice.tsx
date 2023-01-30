@@ -25,7 +25,9 @@ class Dice extends Component<IProps, IState> {
     renderDie(i: number) {
         return (<Die value={this.state.values[i]}
                      locked={this.state.lockedDice[i]}
-                     onClick={() => this.lock(i)}/>)
+                     onClick={() => this.lock(i)}
+                     key={`die_${i}`}
+        />)
     }
 
     render() {
