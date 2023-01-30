@@ -9,14 +9,61 @@ import Board from "./Board/Board";
 
 library.add(fas)
 
-function App() {
-    return (
-        <div className="App">
-            <div className="App-body">
-                <Board/>
-                <Dice/>
-            </div>
-        </div>);
+
+interface IProps {
+}
+
+interface IState {
+    diceValues: Array<number>;
+    diceLocked: Array<boolean>;
+}
+
+
+class App extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            diceValues: Array(5).fill(1),
+            diceLocked: Array(5).fill(false),
+        }
+    }
+
+
+    render() {
+        return (
+            <div className="App">
+                <div className="App-body">
+                    <Board/>
+                    <Dice values={this.state.diceValues}
+                          lockedDice={this.state.diceLocked}
+                          lockDie={(i: number) => this.lock(i)}
+                          shuffleDice={() => this.shuffle()}
+                    />
+                </div>
+            </div>);
+    }
+
+
+    lock(i: number) {
+        const nextLockedDice = this.state.diceLocked;
+        nextLockedDice[i] = !nextLockedDice[i];
+        this.setState({diceLocked: nextLockedDice});
+    }
+
+    shuffle() {
+        const nextValues = this.state.diceValues.map((value, index) => {
+            if (!this.state.diceLocked[index]) return this.roll()
+            return value
+        });
+
+        this.setState({
+            diceValues: nextValues,
+        });
+    }
+
+    roll(): number {
+        return Math.ceil(Math.random() * 6);
+    }
 }
 
 export default App;
