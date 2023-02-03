@@ -33,10 +33,10 @@ class App extends React.Component<IProps, IState> {
         return (
             <div className="App">
                 <div className="App-body">
-                    <Board/>
+                    <Board diceValues={this.state.diceValues}/>
                     <Dice values={this.state.diceValues}
                           lockedDice={this.state.diceLocked}
-                          lockDie={(i: number) => this.lock(i)}
+                          lockDie={(i: number) => this.lockDie(i)}
                           shuffleDice={() => this.shuffle()}
                     />
                 </div>
@@ -44,7 +44,7 @@ class App extends React.Component<IProps, IState> {
     }
 
 
-    lock(i: number) {
+    lockDie(i: number) {
         const nextLockedDice = this.state.diceLocked;
         nextLockedDice[i] = !nextLockedDice[i];
         this.setState({diceLocked: nextLockedDice});

@@ -10,7 +10,6 @@ interface IProps {
     lockedDice: Array<boolean>;
     lockDie: (i: number) => void;
     shuffleDice: () => void;
-
 }
 
 class Dice extends Component<IProps> {

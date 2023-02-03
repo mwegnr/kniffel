@@ -2,40 +2,41 @@ import React, {Component} from "react";
 import './Board.css'
 
 interface IProps {
+    locked: boolean
+    value: number
+    isResultField: boolean
+    calcValue: () => number
+    setValue: (value: number) => void
+    onClick: () => void
 }
 
 interface IState {
-    locked: boolean
 }
 
 class Field extends Component<IProps, IState> {
-// TODO
-// Field-State/Props:
-// - filledValue
-// - numbersToCount
-// - onClick
-    constructor(props: IProps) {
-        super(props);
-        this.state = {
-            locked: false
-        }
-    }
-
-
     render() {
         return (
             <tr>
-                {/*TODO:
-                    - use props and pass locked prop/state from board
-                    - pass value prop from board
-                */}
-                <td className={`cell ${this.state.locked ? 'locked' : ''}`}>
-                    <button onClick={() => this.setState({locked: !this.state.locked})}>sdasd</button>
+                <td className={`cell ${this.props.locked ? 'locked' : ''}`}>
+                    <button onClick={() => this.onClick()}>
+                        {this.showText()}
+                    </button>
                 </td>
             </tr>
         )
     }
 
+    onClick() {
+        this.props.setValue(this.props.calcValue())
+        this.props.onClick()
+    }
+
+    showText(): number {
+        if (this.props.isResultField || !this.props.locked) {
+            return this.props.calcValue()
+        }
+        return this.props.value
+    }
 }
 
 export default Field
