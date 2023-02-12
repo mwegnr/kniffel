@@ -16,6 +16,7 @@ interface IProps {
 interface IState {
     diceValues: Array<number>;
     diceLocked: Array<boolean>;
+    currentRoll: number;
 }
 
 
@@ -25,6 +26,7 @@ class App extends React.Component<IProps, IState> {
         this.state = {
             diceValues: Array(5).fill(1),
             diceLocked: Array(5).fill(false),
+            currentRoll: 0,
         }
     }
 
@@ -51,15 +53,22 @@ class App extends React.Component<IProps, IState> {
     }
 
     shuffle() {
-        const nextValues = this.state.diceValues.map((value, index) => {
-            if (!this.state.diceLocked[index]) return this.roll()
-            return value
-        });
-
-        this.setState({
-            diceValues: nextValues,
-        });
+        if (this.state.currentRoll <= 2) {
+            const nextValues = this.state.diceValues.map((value, index) => {
+                if (!this.state.diceLocked[index])
+                    return this.roll()
+                return value
+            });
+            if (this.state.currentRoll === 2) {
+                this.setState({diceLocked: Array(5).fill(true)})
+            }
+            this.setState({
+                diceValues: nextValues,
+                currentRoll: this.state.currentRoll + 1
+            });
+        }
     }
+
 
     roll(): number {
         return Math.ceil(Math.random() * 6);
