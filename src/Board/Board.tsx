@@ -6,11 +6,13 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 interface IProps {
     diceValues: Array<number>;
+    lockedFields: Array<boolean>,
+    lockField: (i: number) => void
+
 }
 
 interface IState {
     fieldValues: Array<number>,
-    fieldLockedStates: Array<boolean>,
 }
 
 class Board extends Component<IProps, IState> {
@@ -18,9 +20,7 @@ class Board extends Component<IProps, IState> {
         super(props);
         this.state = {
             fieldValues: Array(19).fill(0),
-            fieldLockedStates: Array(19).fill(false)
         }
-        this.lockResultFields()
     }
 
     renderIconLabel(icon: string) {
@@ -69,12 +69,12 @@ class Board extends Component<IProps, IState> {
 
 
     renderSingleField(i: number, calcValue: () => number, isResultField = false) {
-        return <Field locked={this.state.fieldLockedStates[i]}
+        return <Field locked={this.props.lockedFields[i]}
                       value={this.state.fieldValues[i]}
                       isResultField={isResultField}
                       calcValue={() => calcValue()}
                       setValue={(value: number) => this.setFieldValue(i, value)}
-                      onClick={() => this.lockField(i)}
+                      onClick={() => this.props.lockField(i)}
         />
     }
 
@@ -113,21 +113,6 @@ class Board extends Component<IProps, IState> {
                 {this.renderFields()}
             </div>
         )
-    }
-
-    lockResultFields() {
-        this.lockField(6)
-        this.lockField(7)
-        this.lockField(8)
-        this.lockField(16)
-        this.lockField(17)
-        this.lockField(18)
-    }
-
-    lockField(i: number) {
-        const nextLockedFields = this.state.fieldLockedStates;
-        nextLockedFields[i] = true;
-        this.setState({fieldLockedStates: nextLockedFields});
     }
 
     setFieldValue(i: number, value: number) {

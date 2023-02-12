@@ -15,7 +15,8 @@ interface IProps {
 
 interface IState {
     diceValues: Array<number>;
-    diceLocked: Array<boolean>;
+    lockedDice: Array<boolean>;
+    lockedFields: Array<boolean>,
     currentRoll: number;
 }
 
@@ -24,9 +25,14 @@ class App extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            diceValues: Array(5).fill(1),
-            diceLocked: Array(5).fill(false),
-            currentRoll: 0,
+            diceValues: Array.from({length: 5}, () => this.roll()),
+            lockedDice: Array(5).fill(false),
+            lockedFields: [
+                ...Array(6).fill(false),
+                ...Array(3).fill(true),
+                ...Array(7).fill(false),
+                ...Array(3).fill(true)],
+            currentRoll: 1,
         }
     }
 
@@ -35,9 +41,12 @@ class App extends React.Component<IProps, IState> {
         return (
             <div className="App">
                 <div className="App-body">
-                    <Board diceValues={this.state.diceValues}/>
+                    <Board diceValues={this.state.diceValues}
+                           lockedFields={this.state.lockedFields}
+                           lockField={(i: number) => this.lockField(i)}
+                    />
                     <Dice values={this.state.diceValues}
-                          lockedDice={this.state.diceLocked}
+                          lockedDice={this.state.lockedDice}
                           lockDie={(i: number) => this.lockDie(i)}
                           shuffleDice={() => this.shuffle()}
                     />
@@ -47,20 +56,33 @@ class App extends React.Component<IProps, IState> {
 
 
     lockDie(i: number) {
-        const nextLockedDice = this.state.diceLocked;
+        const nextLockedDice = this.state.lockedDice;
         nextLockedDice[i] = !nextLockedDice[i];
-        this.setState({diceLocked: nextLockedDice});
+        this.setState({lockedDice: nextLockedDice});
+    }
+
+    lockField(i: number) {
+        const nextLockedFields = this.state.lockedFields;
+        nextLockedFields[i] = true;
+        this.setState({
+            diceValues: Array.from({length: 5}, () => this.roll()),
+            lockedFields: nextLockedFields,
+            lockedDice: Array(5).fill(false),
+            currentRoll: 1
+        });
     }
 
     shuffle() {
+        console.log("shuffle")
+        console.log(this.state.currentRoll)
         if (this.state.currentRoll <= 2) {
             const nextValues = this.state.diceValues.map((value, index) => {
-                if (!this.state.diceLocked[index])
+                if (!this.state.lockedDice[index])
                     return this.roll()
                 return value
             });
             if (this.state.currentRoll === 2) {
-                this.setState({diceLocked: Array(5).fill(true)})
+                this.setState({lockedDice: Array(5).fill(true)})
             }
             this.setState({
                 diceValues: nextValues,
